@@ -156,7 +156,13 @@ function launchSession(sessionId: string, width: number, height: number): void {
     gridHeight = height;
     initUI();
 
-    const stream = client.SubscribeToGame({ sessionId, rows: 500, cols: 500 });
+    const stream = client.SubscribeToGame({
+        sessionId,
+        rows: 500,
+        cols: 500,
+        offsetX: 0,
+        offsetY: 0,
+    });
 
     stream.on("data", (gameData: any) => {
         if (paused) return;
