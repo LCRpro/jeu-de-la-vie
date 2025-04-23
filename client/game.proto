@@ -3,18 +3,14 @@ syntax = "proto3";
 package game;
 
 service GameService {
-
   rpc RequestGame (GameRequest) returns (GameInformation);
-  rpc SubscribeToGame (GameInformation) returns (stream GameData);
+  rpc SubscribeToGame (Viewport) returns (stream GameData);
+  rpc ListSessions (Empty) returns (SessionList);
 }
 
-message GameData {
-  int32 generation = 1;
-  bytes bitmap = 2; // bitmap compressé
-}
-
-message Cell {
-  int32 index = 1;
+message GameRequest {
+  int32 height = 1;
+  int32 width = 2;
 }
 
 message GameInformation {
@@ -23,10 +19,21 @@ message GameInformation {
   string sessionId = 3;
 }
 
-message GameRequest {
-  int32 height = 1;
-  int32 width = 2;
+message GameData {
+  int32 generation = 1;
+  bytes bitmap = 2;
 }
 
-message Empty {
+message Viewport {
+  string sessionId = 1;
+  int32 offsetX = 2;
+  int32 offsetY = 3;
+  int32 rows = 4; // hauteur de la vue
+  int32 cols = 5; // largeur de la vue (en cellules, pas en caractères)
 }
+
+message SessionList {
+  repeated GameInformation sessions = 1;
+}
+
+message Empty {}
