@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package game;
+
+service GameService {
+
+  rpc RequestGame (GameRequest) returns (GameInformation);
+  rpc SubscribeToGame () returns (stream GameData);
+}
+
+message GameData {
+  int32 generation = 5;
+  repeated Cell cells = 1;
+}
+
+message Cell {
+  int32 index = 1;
+}
+
+message GameInformation {
+  int32 height = 2;
+  int32 width = 3;
+}
+
+message GameRequest {
+  int32 height = 1;
+  int32 width = 2;
+}
